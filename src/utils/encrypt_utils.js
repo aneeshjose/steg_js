@@ -13,10 +13,6 @@ function plainEncrypt(params) {
     const algorithm = 'aes-256-cbc';
     let encryptionKey = crypto.createHash('sha256').update(String(params.key)).digest();
 
-    if (encryptionKey.length !== 32) {
-        throw new Error('Encryption key must be 32 bytes long.');
-    }
-
     let iv = crypto.randomBytes(16); // Set IV length to 16 bytes for AES-256-CBC
 
     let cipher = crypto.createCipheriv(algorithm, encryptionKey, iv);

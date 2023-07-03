@@ -1,8 +1,11 @@
 {
-  "name": "steg_js",
+  "name": "@aneeshjose/steg_js",
   "version": "1.0.0",
   "description": "StegJS is a Node.js project that enables you to implement steganography techniques using JavaScript. With StegJS, you can easily embed and extract hidden messages or sensitive data within various digital media formats, such as images, audio files and videos.",
-  "main": "index.js",
+  "main": "./bin/stegjs.cjs",
+  "bin": {
+    "stegjs": "./bin/stegjs.cjs"
+  },
   "scripts": {
     "test": "jest"
   },

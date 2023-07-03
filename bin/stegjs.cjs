@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const encrypt = require('../src/encrypt.js');
-const decrypt = require('../src/decrypt.js');
+const encrypt = require('../src/commands/encrypt.js');
+const decrypt = require('../src/commands/decrypt.js');
 
 program
   .version('1.0.0')

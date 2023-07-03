@@ -16,7 +16,7 @@ function encryptMessage(options) {
     const inputImagePath = options.input;
 
     // Path to the output image file
-    const outputImagePath = options.output;
+    let outputImagePath = options.output;
 
     // Open the input image file
     sharp(inputImagePath)
@@ -117,6 +117,11 @@ function encryptMessage(options) {
             // Create a new Sharp instance with the modified pixel data
             const modifiedImage = sharp(data, { raw: { width, height, channels: 4 } });
             // Save the modified image to the output file
+
+            if (!outputImagePath){
+                outputImagePath = './output.png';
+            }
+            
             return modifiedImage.toFile(outputImagePath);
         })
         .then(() => {

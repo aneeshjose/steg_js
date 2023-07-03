@@ -22,5 +22,8 @@
   "dependencies": {
     "commander": "^11.0.0",
     "sharp": "^0.32.1"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
   }
 }

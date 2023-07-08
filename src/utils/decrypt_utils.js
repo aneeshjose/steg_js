@@ -13,10 +13,6 @@ function plainDecrypt(params) {
     const algorithm = 'aes-256-cbc';
     let encryptionKey = crypto.createHash('sha256').update(String(params.key)).digest();
 
-    if (encryptionKey.length !== 32) {
-        throw new Error('Encryption key must be 32 bytes long.');
-    }
-
     let [ivHex, encryptedHex] = params.encryptedData.split(':');
     let iv = Buffer.from(ivHex, 'hex');
     let encrypted = Buffer.from(encryptedHex, 'hex');

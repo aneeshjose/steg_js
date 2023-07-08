@@ -76,7 +76,9 @@ function decryptMessage(options) {
             // const encryptedText = binaryToString(binStr);
             options.encryptedData = utils.binaryToString(binStr);
 
-            console.log(utils.plainDecrypt(options))
+            const decrypted = utils.plainDecrypt(options);
+            console.log(decrypted);
+            return decrypted;
         });
 }
 

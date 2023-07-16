@@ -28,10 +28,10 @@ function encryptMessage(options) {
             const { width, height } = info;
             let totalPixels = width * height;
 
-            if ((options.message??'').length==0){
+            if ((options.message ?? '').length == 0) {
                 throw "message cannot be empty";
             }
-            let encryptedData = utils.plainEncrypt(options); 
+            let encryptedData = utils.plainEncrypt(options);
             let binaryStr = utils.stringToBinary(encryptedData);
             let spacing = parseInt(totalPixels / binaryStr.length);
             let spacingBin = spacing.toString(2);
@@ -123,7 +123,7 @@ function encryptMessage(options) {
             if (!outputImagePath){
                 outputImagePath = './output.png';
             }
-            
+
             return modifiedImage.toFile(outputImagePath);
         })
         .then(() => {

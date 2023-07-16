@@ -37,7 +37,6 @@ function decryptMessage(options) {
 
             const spacing = parseInt(spacingIndexStr, 2);
 
-            // console.log(spacing);
             currIndex += 2;
             let binStr = '';
 
@@ -49,13 +48,8 @@ function decryptMessage(options) {
                 }
                 binStr += Math.abs(data[currIndex] - data[prevIndex]) % 2
                 currIndex += spacing;
-
-                // console.log(currIndex, "\t", currIndex % 4, "\t", prevIndex, "\t", prevIndex % 4, "\t", data[currIndex], "\t", data[prevIndex], "\t");
-                // currIndex += 2;
             } while (currIndex < totalPixels)
-            // console.log(binStr);
 
-            // const encryptedText = binaryToString(binStr);
             options.encryptedData = utils.binaryToString(binStr);
 
             const decrypted = utils.plainDecrypt(options);

@@ -29,7 +29,7 @@ function encryptMessage(options) {
             let totalIndexes = width * height * 4;
 
             if ((options.message ?? '').length == 0) {
-                throw "message cannot be empty";
+                throw { err: true, msg: "message cannot be empty" };
             }
             let encryptedData = utils.plainEncrypt(options);
             let binaryStr = utils.stringToBinary(encryptedData);
@@ -42,11 +42,11 @@ function encryptMessage(options) {
             while (newSpacing != spacing) {
                 spacing = newSpacing;
                 spacingBin = spacing.toString(2);
-                newSpacing = parseInt(totalIndexes / (binaryStr.length + spacingBin.length + 2))
+                newSpacing = parseInt(totalIndexes / (binaryStr.length + spacingBin.length + 2));
             }
 
             if (parseInt(spacing) <= 2) {
-                throw "Image size invalid";
+                throw { err: true, msg: "Image size invalid" };
             }
 
             let currIndex = 1;
@@ -58,19 +58,19 @@ function encryptMessage(options) {
                     break;
                 }
 
-                let newAdd = parseInt(spacingBin[spacingBinIndex])
+                let newAdd = parseInt(spacingBin[spacingBinIndex]);
                 const prevIndex = currIndex - 1;
                 const diff = newAdd === 1 ? 1 : 2; // add 2 instead of 0 to data[index-1]
                 data[currIndex] = (data[prevIndex] + diff);
                 if (data[currIndex] > 250) data[currIndex] = (data[prevIndex] - diff);
 
-                spacingBinIndex++
+                spacingBinIndex++;
                 currIndex += 2;
             } while (true)
 
             // to set the ending of the spacing(kind of a delimiter)
             const prevIndex = currIndex - 1;
-            data[currIndex] = data[prevIndex]
+            data[currIndex] = data[prevIndex];
 
             // increment the x, y, and index values for the delimiter
             currIndex += 2;
@@ -78,7 +78,7 @@ function encryptMessage(options) {
             // add the encoded 0s and 1s of the encrypted message to the previousIndex's value
             let binIndex = 0;
             do {
-                let newAdd = parseInt(binaryStr[binIndex])
+                let newAdd = parseInt(binaryStr[binIndex]);
                 const diff = newAdd === 1 ? 1 : 2;
 
                 const prevIndex = currIndex - 1;
@@ -86,7 +86,7 @@ function encryptMessage(options) {
                 if (data[currIndex] > 250) data[currIndex] = (data[prevIndex] - diff);
                 binIndex++;
                 currIndex += spacing;
-            } while (currIndex < totalIndexes && binIndex < binaryStr.length)
+            } while (currIndex < totalIndexes && binIndex < binaryStr.length);
 
             // at the end there is a chance of totalIndexes-currectIndex>0
             // it leads  to the decryptor to append zeros to the end. Inorder to hinder that, we are adding the EOF(kind of).
@@ -104,10 +104,12 @@ function encryptMessage(options) {
             return modifiedImage.toFile(outputImagePath);
         })
         .then(() => {
-            console.log('Image processing completed!');
+            console.log('Message encryption completed!');
+            return { err: false, msg: 'Message encryption completed' };
         })
         .catch((error) => {
             console.error('An error occurred:', error);
+            return { err: true, msg: error };
         });
 }
 

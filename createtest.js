@@ -4,7 +4,7 @@
 const sharp = require('sharp');
 
 
-createImage({height:3, width:529*3})
+// createImage({height:3, width:529*3})
 
 
 /**

@@ -48,13 +48,17 @@ function decryptMessage(options) {
                 }
                 binStr += Math.abs(data[currIndex] - data[prevIndex]) % 2
                 currIndex += spacing;
-            } while (currIndex < totalPixels)
+            } while (currIndex < totalPixels);
 
             options.encryptedData = utils.binaryToString(binStr);
 
-            const decrypted = utils.plainDecrypt(options);
+            return utils.plainDecrypt(options);
+        }).then((decrypted) => {
             console.log(decrypted);
-            return decrypted;
+            return { err: false, msg: decrypted };
+        }).catch((err) => {
+            console.log(err);
+            return { err: true, msg: err };
         });
 }
 

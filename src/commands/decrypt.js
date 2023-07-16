@@ -19,59 +19,38 @@ function decryptMessage(options) {
         .then(({ data, info }) => {
             // Get image dimensions
             const { width, height } = info;
-            let totalPixels = width * height;
+            let totalPixels = width * height * 4;
 
             let currIndex = 1;
-            let currX = 1;
-            let currY = 0;
 
             let spacingIndexStr = '';
 
             do {
-                const index = (currY * width + currX) * 4;
-                const prevIndex = currX - 1 >= 0 ? (currY * width + (currX - 1)) * 4 : ((currY - 1) * width + (width - 1)) * 4
+                const prevIndex = currIndex - 1;
                 // End of spacing encoding
-                if (data[index] === data[prevIndex]) {
+                if (data[currIndex] === data[prevIndex]) {
                     break;
                 }
-
-                spacingIndexStr += ((parseInt(data[index]) - parseInt(data[prevIndex])) % 2) // while encrypting, we added 2 for 0 and 1 for 1. So, % will use it to set it directly
-
-                currX += 2
+                spacingIndexStr += ((parseInt(data[currIndex]) - parseInt(data[prevIndex])) % 2) // while encrypting, we added 2 for 0 and 1 for 1. So, % will use it to set it directly
                 currIndex += 2;
-                if (currIndex % width == 0) {
-                    currX = 0;
-                    currY++
-                }
             } while (true)
 
             const spacing = parseInt(spacingIndexStr, 2);
 
-            currX += 2
             currIndex += 2;
-            if (currIndex % width == 0) {
-                currX = 0;
-                currY++
-            }
-            let binStr = ''
+            let binStr = '';
+
             do {
-                const index = (currY * width + currX) * 4;
-                const prevIndex = currX - 1 >= 0 ? (currY * width + (currX - 1)) * 4 : ((currY - 1) * width + (width - 1)) * 4
+                const prevIndex = currIndex - 1;
                 // End of encoded encrypted data
-                if (data[index] === data[prevIndex]) {
+                if (data[currIndex] === data[prevIndex]) {
                     break;
                 }
-                currIndex++
-                if (currIndex % spacing == 0) {
-
-                    binStr += (data[index] - data[prevIndex]) % 2
-                    currX++
-                }
-                if (currIndex % width == 0) {
-                    currX = 0;
-                    currY++
-                }
+                binStr += (data[currIndex] - data[prevIndex]) % 2
+                currIndex += spacing;
+                // currIndex += 2;
             } while (currIndex < totalPixels)
+            // console.log(binStr);
 
             // const encryptedText = binaryToString(binStr);
             options.encryptedData = utils.binaryToString(binStr);

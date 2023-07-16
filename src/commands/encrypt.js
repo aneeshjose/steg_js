@@ -62,6 +62,7 @@ function encryptMessage(options) {
                 const prevIndex = currIndex - 1;
                 const diff = newAdd === 1 ? 1 : 2; // add 2 instead of 0 to data[index-1]
                 data[currIndex] = (data[prevIndex] + diff);
+                if (data[currIndex] > 250) data[currIndex] = (data[prevIndex] - diff);
 
                 spacingBinIndex++
                 currIndex += 2;
@@ -82,6 +83,7 @@ function encryptMessage(options) {
 
                 const prevIndex = currIndex - 1;
                 data[currIndex] = (data[prevIndex] + diff);
+                if (data[currIndex] > 250) data[currIndex] = (data[prevIndex] - diff);
                 binIndex++;
                 currIndex += spacing;
             } while (currIndex < totalIndexes && binIndex < binaryStr.length)
